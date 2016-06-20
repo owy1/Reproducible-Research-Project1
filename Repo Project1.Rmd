@@ -1,0 +1,116 @@
+---
+title: "Reproducible Course Project 1"
+author: "Ophelia"
+date: "June 14, 2016"
+output: html_document
+---
+
+```{r setup, include=TRUE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## part1: read and process data
+This is my first knitr document.  The actiity monitoring dataset is stored in a 
+csv file and there are 17,568 observation and 3 variables (steps, date, interval) in this dataset.  
+It is downloaded from 
+https://www.coursera.org/learn/reproducible-research/peer/gYyPt/course-project-1
+Here is code chunk reading data from working directory
+
+```{r chunk_read}
+dataset <- read.csv("activity.csv", header=TRUE, sep=",", stringsAsFactors = FALSE)
+```
+
+
+## part2: histogram of total number steps taken per day
+Here is code chunk generating plot
+
+```{r chunk_histogram1}
+aggData1 <- aggregate(dataset[,'steps'], by=list(Group.date=dataset$date),FUN=sum,na.rm=TRUE)
+aggData1$Group.date <- as.Date(aggData1$Group.date)
+head(aggData1)
+hist(aggData1$x,col="blue",main="total steps per day",xlab="steps",freq=TRUE)
+```
+The aggregated data summarizing total number steps taken each day with missing data removed 
+contains 61 observations, of which 8 of them are zeros steps.
+
+## part3: mean and median values of part2
+Here is code chunk of summary of total steps taken each day
+
+```{r chunk_mean}
+summary(aggData1)
+```
+The mean of total numbers of steps taken per day is 9354.
+The median of total numbers of steps taken per day is 10395.
+
+## part4: time series plot of average steps taken
+Here is code chunk generating plot
+
+```{r chunk_time_series}
+library(ggplot2)
+aggData2 <- aggregate(dataset[,'steps'], by=list(Group.interval=dataset$interval),FUN=mean,na.rm=TRUE)
+head(aggData2)
+ggplot(aggData2,aes(Group.interval,x))+geom_line()+xlab("intervals") +ylab("steps")+
+ggtitle("averge number steps taken across all days")
+```
+
+
+## part5: 5-minute interval contains maximum number of steps 
+Here is code chunk to evaluate average number of steps in 5-minute intervals 
+
+```{r chunk_max}
+maxStep <- aggData2[which.max(aggData2$x),]
+```
+Interval `r maxStep[1,1]` contains maximuum steps of `r as.integer(maxStep[1,2])`.
+
+## part6: strategy for imputing missing data 
+Here is code chunk checking which variables misses more than 5% of data, 
+a safe maximum threshold for dataset
+
+```{r chunk_missing}
+pMis <- function(x)(sum(is.na(x)/length(x)*100))
+pMiss <- apply(dataset,2,pMis)
+pMiss
+```
+We see that variable steps consists 13% (2304) NAs of total 17568 rows, 
+Here is code chunk using mice package to replace missing data with 
+imputed values in the first of five dataset
+
+```{r chunk_impute}
+library(mice)
+tempData1 <- mice(dataset,m=5,maxit=20,meth='pmm',seed=500)
+completedData <- complete(tempData1,1,include=TRUE)
+```
+
+
+## part7: histogram of total number steps taken per day after missing values are imputed
+Here is code chunk generating plot
+
+```{r chunk_histogram2}
+aggData3 <- aggregate(completedData[,'steps'], by=list(Group.date=dataset$date),FUN=sum,na.rm=TRUE)
+aggData3$Group.date <- as.Date(aggData3$Group.date)
+hist(aggData3$x,col="blue",main="total steps per day",xlab="steps",freq=TRUE)
+summary(aggData3)
+```
+The mean of total numbers of steps taken per day with imputed values is 10761.
+The median of total numbers of steps taken per day with imputed values is 10654.
+The mice function draws the mean and median closer together, making the distribution
+more symmetrical.
+
+
+## part8: panel plot average number of steps taken per 5-minute intervals
+## comparing weekends and weekdays, using imputed values
+Here is code chunk generating plot
+
+```{r chunk_panel_series}
+temp <- completedData
+head(temp) 
+weekdays1 <- c('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')
+temp$date <- as.Date(temp$date)
+temp$wDay <- c('weekend','weekday')[(weekdays(temp$date) %in% weekdays1)+1L]
+head(temp)
+aggData4 <- aggregate(steps ~ interval+wDay, temp, mean) 
+ggplot(aggData4,aes(interval,steps))+geom_line()+xlab("intervals") +ylab("steps")+
+facet_wrap(~wDay,ncol=1)
+```
+

@@ -1,0 +1,255 @@
+sapply(iris,unique)
+tapply(iris$Sepal.Length, iris$Species,mean)
+tapply(iris$Sepal.Length, iris$Species,summary)
+apply(iris[,1:4],1,mean)
+colMeans(iris)
+apply(iris[,1:4],2,mean)
+rowMeans(iris[,1:4])
+apply(iris,1,mean)
+library(datasets)
+data(mtcars)
+?(mtcars)
+?mtcars
+class(mtcars)
+dim(mtcars)
+sapply(mtcars,unique)
+tapply(mtcars$cyl, mtcars$mpg,mean)
+tapply(mtcars$mpg, mtcars$cyl,mean)
+apply(mtcars,2,mean)
+lapply(mtcars,mean)
+with(mtcars, tapply(mpg,cyl,mean))
+mean(mtcars$mpg,mtcars$cyl)
+split(mtcars, mtcars$cyl)
+sapply(split(mtcars$mpg, mtcars$cyl), mean)
+mean(mtcars$mpg, mtcars$cyl)
+sapply(mtcars, cyl, mean)
+sapply(mtcars, mtcars$cyl, mean)
+mean(mtcars$hp, mtcars$cyl)
+with(mtcars, tapply(hp,cyl,mean))
+debug(ls)
+ls
+ls()
+exit
+quit
+clr
+debug
+q
+c
+rm(list=ls())
+c
+ls()
+q
+c
+f
+q
+ls()
+debuggingState(on=FALSE)
+Q
+ls()
+debug(ls)
+ls
+ls()
+ls
+debug(ls)
+ls
+|s
+debug(ls)
+Is
+Is()
+1s()
+ls
+library(XML)
+version
+library(RCurl)
+library(XML)
+fileURL <- “https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Frestaurants.xml”
+fileURL <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Frestaurants.xml"
+xData <- getURL(fileURL)
+dataset <- xmlParse(xData)
+rootNode <- xmlRoot(dataset)
+xmlName(rootNode)
+rootNode[[1]]
+rootNode[[1]][[1]]
+rootNode[[2]][[1]]
+rootNode[[1]][[2]]
+dataset <- xmlTreeParse(fileURl, useInternal=TRUE)
+ls()
+dataset <- xmlTreeParse(fileURL, useInternal=TRUE)
+rootNode[[1]][[1]]
+names(rootNode)
+names(rootNode[[1]])
+names(dataset)
+xmlName(rootNode)
+xmlName(rootNode[[1]])
+xmlName(rootNode[[2]])
+xmlName(rootNode[[1]][["zipcode"]])
+xmlName(rootNode[[1]][[1]][["zipcode"]])
+xmlName(rootNode[[1]][[1]])
+xmlName(rootNode[[1]][[1]][[2]])
+rootNode[[1]][[1]][[2]]
+xpathSApply(rootNode,"/response//row[zipcode=21231]",xmlValue)
+rows <- getNodeSet(dataset, "//row[zipcode=21231]")
+addr <- sapply(rows, function(x) xpathSApply(x, "./location_1", xmlGetAttr, "human_address"))
+z <- xmlToDataFrame(nodes=rows)
+z$location_1 <- gsub('.*:"([^"]+).*:"([^"]+).*:"([^"]+).*', '\\1, \\2, \\3', addr)
+head(z)
+nrow(z)
+library(data.table)
+library(swirl)
+rm(list=ls())
+ls()
+swirl()
+swirl)
+swirl()
+install_from_swirl("Exploratory Data Analysis")
+swirl()
+head(pollution)
+dim(pollution)
+summary(pollution$pm25)
+summary(ppm)
+quantile(ppm)
+boxplot(ppm, col="blue")
+abline(ppm, lwd = 12)
+abline(ppm, h=12)
+abline(a,b,h=12)
+abline(ppm, a,b,h=12)
+abline(ppm)
+abline(a=1,b=2)
+abline(h=12)
+hist(ppm,col="green")
+rug(ppm)
+low
+high
+hist(ppm,col="green",breaks=100)
+rug(ppm)
+hist(ppm,col="green")
+abline(v=12,lwd=2)
+abline(v=median(ppm),col="magenta",lwd=4)
+names(pollution)
+reg <- table(pollution$region)
+reg
+barplot(reg,col="wheat",main="Number of Counties in Each Region")
+boxplot(pm25~region, data = pollution, col="red")
+par(mfrow=c(2,1),mar=c(4,4,2,1)) now
+par(mfrow=c(2,1),mar=c(4,4,2,1))
+east <- subset(pollution, region=="east")
+head(east)
+hist(east$pm25, col="green")
+hist(subset(pollution, region=="west"), col="green")
+hist(subset(pollution$pm25, region=="west"), col="green")
+hist((subset(pollution, region=="west"))$pm25, col="green")
+hist(subset(pollution, region=="west")$pm25, col="green")
+with(pollution, plot(latitude,pm25))
+abline(h=12,lwd=2,lty=2)
+plot(pollution$latitude,ppm,col=pollution$region)
+abline(h=12,lwd=2,lty=2)
+par(mfrow = c(1, 2), mar = c(5, 4, 2, 1))
+west <- subset(pollution, region=="west")
+plot(west$latitude, west$pm25,main="West")
+plot(east$latitude, east$pm25,main="East")
+?Devices
+with(faithful,plot(eruptions,waiting))
+title(main = "Old Faithful Geyser data")
+dev.cur()
+pdf(file="myplot.pdf")
+with(faithful,plot(eruptions,waiting))
+title(main = "Old Faithful Geyser data")
+dev.cur()
+dev.off
+dev.off()
+dev.cur()
+with(faithful,plot(eruptions,waiting))
+title(main = "Old Faithful Geyser data")
+dev.copy(png, file=“geyserplot.png”)
+dev.copy(png, file="geyserplot.png")
+dev.off()
+head(cars)
+with(cars,plot(speed,dist))
+text(mean(cars$speed),max(cars$dist),"SWIRL rules")
+text(mean(cars$speed),max(cars$dist),"SWIRL rules!")
+head(state)
+table(state$region)
+xyplot(Life.Exp ~ Income | region, data, layout)
+xyplot(Life.Exp ~ Income | region, data = state, layout=c(4,1))
+xyplot(Life.Exp ~ Income | region, data = state, layout=c(2,2))
+head(mpg)
+dim(mpg)
+table(mpg$model)
+qplot(displ,hwy,data=mpg)
+qplot(displ,hwy, data = mpg)
+0
+swirl()
+qplot(displ,hwy, data = mpg)
+?ggplot2
+??ggplot2
+quit
+exit
+getwd
+getwd()
+swirl()
+ggplot2
+mpg$variable
+qplot(displ, hwy, data = mpg)
+mpg$variable
+ggplot2
+swirl()
+ggplot2
+mpg$variable
+info()
+skip()
+with(airquality)
+head(airquality)
+range(airquality$Ozone,na.rm=TRUE)
+hist(airquality$Ozone)
+table(airquality$Month)
+boxplot(Ozone~Month,airquality)
+boxplot(Ozone~Month,airquality,xlab="Month",ylab="Ozone (ppb)",col.axis = "blue",col.lab = "red")
+boxplot(Ozone~Month,airquality,xlab="Month",ylab="Ozone (ppb)",col.axis = "blue",col.lab = "red", main= "Ozone and Wind in New York City")
+title(main="Ozone and Wind in New York City")
+with(airquality,plot(Wind,Ozone))
+title(main="Ozone and Wind in New York City")
+length(par)
+length(par())
+names(par())
+par()$pin
+par("fg")
+par("pch")
+par("lty")
+plot(airquality$Wind, qirquality$Ozone, type=n)
+plot(airquality$Wind, airquality$Ozone, type=n)
+plot(airquality$Wind, airquality$Ozone, type="n")
+title(main="Wind and Ozone in NYC")
+may <- subset(airquality, Month=5)
+may <- subset(airquality, Month==5)
+points(may$Wind, may$Ozone, col="blue",pch=4)
+points(may$Wind,may$Ozone,col="blue",pch=17)
+notmay <- subset(airquality, Month!=5)
+points(notmay$Wind,notmay$Ozone,col="blue",pch=8)
+points(notmay$Wind,notmay$Ozone,col="red",pch=8)
+legend("topright", pch=c(17,8),col=c("blue","red"),legend=c("May","Other Months"))
+abline(v=median(airquality$Wind),lty=2,lwd=2)
+par(mfrow=c(1,2))
+plot(airquality$Wind,airquality$Ozone,main="Ozone and Wind")
+plot(airquality$Ozone,airquality$Solar.R,main="Ozone and Solar Radiation")
+par(mfrow = c(1, 3), mar = c(4, 4, 2, 1), oma = c(0, 0, 2, 0))
+plot(airquality$Wind,airquality$Ozone,main="Ozone and Wind")
+> plot(airquality$Ozone,airquality$Solar.R,main="Ozone and Solar Radiation")
+plot(airquality$Ozone,airquality$Solar.R,main="Ozone and Solar Radiation")
+plot(airquality$Solar.R, airquality$Ozone, main = "Ozone and Solar Radiation")
+plot(airquality$Temp, airquality$Ozone, main = "Ozone and Temperature")
+mtext("Ozone and Weather in New York City", outer=TRUE)
+dates <- c("02/27/92", "02/27/92", "01/14/92", "02/28/92", "02/01/92")
+times <- c("23:03:20", "22:29:56", "01:03:30", "18:21:03", "16:56:26")
+x <- paste(dates,times)
+strptime(x, "%m/%d%y %H:%M:%S")
+strptime(x, "%m/%d/%y %H:%M:%S")
+as.Date(dates, "%m/%d/%y")
+git init
+git init
+dir()
+echo "# Reproducible-Research-Project1" >> README.md#
+git init#
+git add README.md#
+git commit -m "first commit"#
+git remote add origin https://github.com/owy1/Reproducible-Research-Project1.git#
+git push -u origin master
